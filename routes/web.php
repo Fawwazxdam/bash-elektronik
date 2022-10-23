@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryControlleradmin;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Auth::routes();
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('category');
+Route::get('/detail', [App\Http\Controllers\DetailController::class, 'index'])->name('detail');
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+
+Route::prefix('admin')
+->group(function(){
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard-admin');
+    Route::resource('category', CategoryControlleradmin::class);
 });
