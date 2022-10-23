@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
-use Illuminate\Support\Str;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
-
 use Yajra\DataTables\Facades\DataTables;
-use App\Http\Requests\Admin\CategoryRequest;
 
-class CategoryControlleradmin extends Controller
+class TransactioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,42 +17,39 @@ class CategoryControlleradmin extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Category::query();
+            $query = Transaction::with(['user']);
+
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
                     return '
-                        <div class="btn-group dropup">
+                        <div class="btn-group">
                             <div class="dropdown">
-                                <button type="button" 
-                                class="btn btn-primary dropdown-toggle mr-1 mb-1"
-                                type="button" 
-                                id="action' .  $item->id . '" 
-                                data-bs-toggle="dropdown" 
-                                aria-expanded="false"> 
-                                Aksi
+                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1" 
+                                    type="button" id="action' .  $item->id . '"
+                                        data-toggle="dropdown" 
+                                        aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Aksi
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="action' . $item->id . '">
-                                    <a class="dropdown-item" href="' . route('category.edit', $item->id) . '">
+                                <div class="dropdown-menu" aria-labelledby="action' .  $item->id . '">
+                                    <a class="dropdown-item" href="' . route('transaction.edit', $item->id) . '">
                                         Sunting
                                     </a>
-                                    <form action="' . route('category.destroy', $item->id) . '" method="POST">
+                                    <form action="' . route('transaction.destroy', $item->id) . '" method="POST">
                                         ' . method_field('delete') . csrf_field() . '
                                         <button type="submit" class="dropdown-item text-danger">
                                             Hapus
                                         </button>
                                     </form>
                                 </div>
-                                
                             </div>
                     </div>';
                 })
-                ->editColumn('photo', function ($item) {
-                    return $item->photo ? '<img src="' . Storage::url($item->photo) . '" style="max-height: 40px;"/>' : '';
-                })
-                ->rawColumns(['action', 'photo'])
+                ->rawColumns(['action'])
                 ->make();
         }
-        return view('pages.admin.category.index');
+
+        return view('pages.admin.transaction.index');
     }
 
     /**
@@ -66,7 +59,7 @@ class CategoryControlleradmin extends Controller
      */
     public function create()
     {
-        return view('pages.admin.category.create');
+        //
     }
 
     /**
@@ -75,16 +68,9 @@ class CategoryControlleradmin extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-
-        $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
-
-        Category::create($data);
-
-        return redirect()->route('category.index');
+        //
     }
 
     /**
@@ -106,12 +92,7 @@ class CategoryControlleradmin extends Controller
      */
     public function edit($id)
     {
-        $item = Category::findOrFail($id);
-
-        return view('pages.admin.category.edit',[
-            'item' => $item
-        ]);
-
+        
     }
 
     /**
@@ -121,19 +102,16 @@ class CategoryControlleradmin extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        //
         $data = $request->all();
 
-        $data['slug'] = Str::slug($request->name);
-        $data['photo'] = $request->file('photo')->store('assets/category', 'public');
-
-        $item = Category::findOrFail($id);
+        $item = Transaction::findOrFail($id);
 
         $item->update($data);
 
-        return redirect()->route('category.index');
-
+        return redirect()->route('transaction.index');
     }
 
     /**
@@ -144,10 +122,10 @@ class CategoryControlleradmin extends Controller
      */
     public function destroy($id)
     {
-        $item = Category::findorFail($id);
+        //
+        $item = Transaction::findorFail($id);
         $item->delete();
 
-        return redirect()->route('category.index');
-
+        return redirect()->route('transaction.index');
     }
 }

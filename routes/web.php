@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryControlleradmin;
-
+use App\Http\Controllers\Admin\TransactioController;
+use App\Http\Controllers\Admin\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,6 @@ Route::prefix('admin')
 ->group(function(){
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard-admin');
     Route::resource('category', CategoryControlleradmin::class);
+    Route::resource('users', UsersController::class);
+    Route::resource('transaction', TransactioController::class);
 });
