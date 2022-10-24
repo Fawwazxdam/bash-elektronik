@@ -35,8 +35,8 @@
                 </a>
             </li>
 
-            {{-- <li class="nav-item ">
-                <a href="#" class="nav-link">
+            <li class="nav-item {{ request()->is('admin/product*') ? 'active' : '' }} ">
+                <a href="{{ route('product.index') }}" class="nav-link">
                     <span class="sidebar-icon">
                         <svg class="icon icon-xs me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-phone-fill" viewBox="0 0 16 16">
                             <path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/>
@@ -44,7 +44,17 @@
                     </span>
                     <span class="sidebar-text">Products</span>
                 </a>
-            </li> --}}
+            </li>
+            <li class="nav-item ">
+                <a href="{{ route('gallery.index') }}" class="nav-link">
+                    <span class="sidebar-icon">
+                        <svg class="icon icon-xs me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-1x2-fill" viewBox="0 0 16 16">
+                            <path d="M0 1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm9 0a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1V1zm0 9a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5z"/>
+                          </svg>
+                    </span>
+                    <span class="sidebar-text">Gallery</span>
+                </a>
+            </li>
             <li class="nav-item {{ request()->is('admin/category*') ? 'active' : '' }}">
                 <a href="{{ route('category.index') }}" class="nav-link d-flex justify-content-between">
                     <span>

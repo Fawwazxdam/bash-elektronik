@@ -67,7 +67,7 @@
                         <div class="popular_categories_prev popular_categories_nav"><i class="fas fa-angle-left ml-auto"></i></div>
                         <div class="popular_categories_next popular_categories_nav"><i class="fas fa-angle-right ml-auto"></i></div>
                     </div>
-                    <div class="popular_categories_link"><a href="#">full catalog</a></div>
+                    <div class="popular_categories_link"><a href="{{ route('categories-detail')}}">full catalog</></a></div>
                 </div>
             </div>
             
@@ -78,45 +78,15 @@
                     <div class="owl-carousel owl-theme popular_categories_slider">
 
                         <!-- Popular Categories Item -->
+                        @foreach ($categories as $item)
                         <div class="owl-item">
+                            
                             <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="images/popular_1.png" alt=""></div>
-                                <div class="popular_category_text">Smartphones & Tablets</div>
-                            </div>
+                                <div class="popular_category_image"><img src="{{  Storage::url($item->photo) }}" alt=""></div>
+                                <div class="popular_category_text"><a href="{{ route('categories-detail', $item->slug)}}" class="nav-link">{{  $item->name }}</a></div>
+                             </div>
                         </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="images/popular_2.png" alt=""></div>
-                                <div class="popular_category_text">Computers & Laptops</div>
-                            </div>
-                        </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="images/popular_3.png" alt=""></div>
-                                <div class="popular_category_text">Gadgets</div>
-                            </div>
-                        </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="images/popular_4.png" alt=""></div>
-                                <div class="popular_category_text">Video Games & Consoles</div>
-                            </div>
-                        </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="images/popular_5.png" alt=""></div>
-                                <div class="popular_category_text">Accessories</div>
-                            </div>
-                        </div>
-
+                        @endforeach
                     </div>
                 </div>
             </div>
