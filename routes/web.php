@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TransactioController;
 use App\Http\Controllers\Admin\CategoryControlleradmin;
 use App\Http\Controllers\Admin\ProductGalleryController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +28,10 @@ Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'd
 Route::get('/detail', [App\Http\Controllers\DetailController::class, 'index'])->name('detail');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
 
-Route::get('/dashboard', [App\Http\Controllers\dashboardUserController::class, 'index'])->name('dashboard-user');
-Route::get('/dashboard-transactions', [App\Http\Controllers\dashboardTransactionController::class, 'index'])->name('dashboard-transaction');
-Route::get('/dashboard-setting', [App\Http\Controllers\dashboardSettingController::class, 'index'])->name('dashboard-setting');
+Route::resource('/dashboard', UserController::class);
+Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('dashboard-transaction');
+// Route::get('/dashboard-setting', [App\Http\Controllers\UserController::class, 'edit'])->name('User.'.Auth::user()->id.'/edit');
+// Route::get('/dashboard-setting', [App\Http\Controllers\UserController::class, 'update'])->name('User.Update');
 
 
 

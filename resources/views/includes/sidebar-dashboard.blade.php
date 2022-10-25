@@ -16,7 +16,7 @@
     <div class="sidebar-inner px-4 pt-3">
         <ul class="nav flex-column pt-3 pt-md-0">
             <li class="nav-item">
-                <a href="{{ asset('/') }}index.html" class="nav-link d-flex align-items-center">
+                <a href="{{ route('home') }}" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
                         <img src="{{ asset('/') }}images/logoo.svg" height="70" width="auto" alt="Volt Logo">
                     </span>
@@ -63,7 +63,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a href="{{ url('/dashboard-setting') }}" class="nav-link">
+                <a href="{{ url('dashboard/'.Auth::user()->id.'/edit') }}" class="nav-link">
                     <span class="sidebar-icon">
                         <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">

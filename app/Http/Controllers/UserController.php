@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 use function GuzzleHttp\Promise\all;
 
-class dashboardUserController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -68,7 +69,10 @@ class dashboardUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $categories = Category::all();
+    
+        return view('pages.dashboard-settings', compact('categories', 'user'));
     }
 
     /**
@@ -80,7 +84,10 @@ class dashboardUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        dd($request);
+        // $user->update($request);
+        // return redirect()->route('dashboard')->with('success','Date Berhasil Di Update');
     }
 
     /**

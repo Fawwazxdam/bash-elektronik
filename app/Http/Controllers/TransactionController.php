@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class dashboardTransactionController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
