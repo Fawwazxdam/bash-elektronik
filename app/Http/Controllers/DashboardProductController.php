@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\User;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductGallery;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\ProductRequest;
 
 class DashboardProductController extends Controller
 {
@@ -32,8 +36,31 @@ class DashboardProductController extends Controller
      */
     public function create()
     {
-        return view('pages.seller.productAdd');
+        $users = User::all();
+        $categories=Category::all();
+        return view('pages.seller.productAdd',[
+            'users' => $users,
+            'categories' => $categories
+        ]);
+        
     }
+
+    public function store(ProductRequest $request)
+    {
+        $data = $request->all();
+        dd($data);
+        $data['slug'] = Str::slug($request->name);
+        $product = Product::create($data);
+
+        $gallery = [
+            'products_id' => $product->id,
+            'photos' => $request->file('photo')->store('assets/product', 'public')
+        ];
+        ProductGallery::create($gallery);
+
+        return redirect()->route('product');
+    } 
+
 
     /**
      * Store a newly created resource in storage.
@@ -41,10 +68,7 @@ class DashboardProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.
