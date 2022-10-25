@@ -26,10 +26,11 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::take(5)->get();
-    //  $product = Product::with(['galleries'])->take(10)->get();
+        $products = Product::with('galleries')->take(10)->get();
+
         return view('pages.home',[
-        'categories' => $categories
-        // 'products' => $product
-    ]);
+            'categories' => $categories,
+            'products' => $products
+        ]);
     }
 }

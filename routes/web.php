@@ -22,9 +22,11 @@ use App\Http\Controllers\Admin\ProductGalleryController;
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories-detail');
+Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('category');
+Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'detail'])->name('categories-detail');
 Route::get('/detail', [App\Http\Controllers\DetailController::class, 'index'])->name('detail');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+
 
 
 Route::prefix('admin')

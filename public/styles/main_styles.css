@@ -2223,8 +2223,8 @@ select option
 .new_arrivals
 {
 	width: 100%;
-	padding-top: 96px;
-	padding-bottom: 96px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 .new_arrivals_title
 {
@@ -2532,7 +2532,6 @@ select option
 	padding-top: 56px;
 	background: #eff6fa;
 	padding-bottom: 50px;
-	margin-top: -77px;
 }
 .bestsellers_panel
 {
