@@ -1,6 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\TransactioController;
+use App\Http\Controllers\Admin\CategoryControlleradmin;
+use App\Http\Controllers\Admin\ProductGalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +19,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Auth::routes();
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('category');
+Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'detail'])->name('categories-detail');
+Route::get('/detail', [App\Http\Controllers\DetailController::class, 'index'])->name('detail');
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+
+Route::get('/dashboard', [App\Http\Controllers\dashboardUserController::class, 'index'])->name('dashboard-user');
+Route::get('/dashboard-transactions', [App\Http\Controllers\dashboardTransactionController::class, 'index'])->name('dashboard-transaction');
+Route::get('/dashboard-setting', [App\Http\Controllers\dashboardSettingController::class, 'index'])->name('dashboard-setting');
+
+
+
+
+Route::prefix('admin')
+->group(function(){
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard-admin');
+    Route::resource('category', CategoryControlleradmin::class);
+    Route::resource('users', UsersController::class);
+    Route::resource('product', ProductController::class);
+    Route::resource('gallery', ProductGalleryController::class);
+    Route::resource('transaction', TransactioController::class);
+    
 });
