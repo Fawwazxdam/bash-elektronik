@@ -84,10 +84,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        dd($request);
+        $user = User::findOrFail($id);
+        $user->update([
+            
+            'store_name' =>$request->store_name,
+        ]);
+        // dd($request);
+
         // $user->update($request);
-        // return redirect()->route('dashboard')->with('success','Date Berhasil Di Update');
+        return redirect()->route('dashboard.index')->with('success','Date Berhasil Di Update');
     }
 
     /**
