@@ -50,7 +50,7 @@ data-aos="fade-up"
                 Transaction
             </div>
             <div class="dashboard-card-subtitle">
-                {{ number_format($transaction_count) }}
+                {{ number_format($transaction) }}
             </div>
             </div>
         </div>

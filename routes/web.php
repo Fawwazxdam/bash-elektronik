@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TransactioController;
 use App\Http\Controllers\Admin\CategoryControlleradmin;
 use App\Http\Controllers\Admin\ProductGalleryController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\DetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,52 +33,57 @@ Route::get('/register/success', [App\Http\Controllers\Auth\RegisterController::c
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
-    // Route::delete('/cart/{id}',  [App\Http\Controllers\CartController::class, 'delete'])->name('cart-delete');
-    Route::resource('keranjang', CartController::class);
+        Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+        // Route::delete('/cart/{id}',  [App\Http\Controllers\CartController::class, 'delete'])->name('cart-delete');
+        Route::resource('keranjang', CartController::class);
 
-   Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
+        Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
+        Route::resource('dashboard', UserController::class);
+        Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('dashboard-transactions');
+        Route::get('/dashboard/seller', [App\Http\Controllers\DashboardSellerController::class, 'index'])
+                ->name('seller-dashboard');
+        Route::get('/dashboard/products', [\App\Http\Controllers\DashboardProductController::class, 'index'])
+                ->name('seller-product');
+        Route::get('/dashboard/products/create', [\App\Http\Controllers\DashboardProductController::class, 'create'])
+                ->name('seller-productAdd');
+        Route::post('/dashboard/products', [\App\Http\Controllers\DashboardProductController::class, 'store'])
+                ->name('seller-insertProduct');
+        Route::get('/dashboard/products/{id}',  [\App\Http\Controllers\DashboardProductController::class, 'details'])
+                ->name('seller-productDetails');
+        Route::post('/dashboard/products/{id}',  [\App\Http\Controllers\DashboardProductController::class, 'update'])
+                ->name('seller-productUpdate');
+        Route::get('dashboard/delete/{id}', [\App\Http\Controllers\DashboardProductController::class, 'destroy'])
+                ->name('seller-productDelete');
 
+
+
+        Route::post('/dashboard/products/gallery/upload',  [\App\Http\Controllers\DashboardProductController::class, 'uploadGallery'])
+                ->name('seller-galleryUpload');
+        Route::get('/dashboard/products/gallery/delete/{id}', [\App\Http\Controllers\DashboardProductController::class, 'deleteGallery'])
+                ->name('seller-galleryDelete');
 });
 
 
 Route::prefix('admin')
-->group(function(){
-    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard-admin');
-    Route::resource('category', CategoryControlleradmin::class);
-    Route::resource('users', UsersController::class);
-    Route::resource('product', ProductController::class);
-    Route::resource('gallery', ProductGalleryController::class);
-    Route::resource('transaction', TransactioController::class);
-    
-});
+        ->group(function () {
+                Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard-admin');
+                Route::resource('category', CategoryControlleradmin::class);
+                Route::resource('users', UsersController::class);
+                Route::resource('product', ProductController::class);
+                Route::resource('gallery', ProductGalleryController::class);
+                Route::resource('transaction', TransactioController::class);
+        });
 
 
 
 Route::get('template', function () {
-    return view('pages/seller/template');
+        return view('pages/seller/template');
 });
 
-Route::get('dashboard', function () {
-    return view('pages/seller/dashboard');
-});
+// Route::get('dashboard', function () {
+//         return view('pages/seller/dashboard');
+// });
 
 Route::get('product', function () {
-    return view('pages/seller/product');
+        return view('pages/seller/product');
 });
-
-Route::get('/dashboard/products', [\App\Http\Controllers\DashboardProductController::class, 'index'])
-        ->name('product');
-Route::get('/dashboard/products/create', 'DashboardProductController@create')
-        ->name('dashboard-product-create');
-Route::post('/dashboard/products', 'DashboardProductController@store')
-        ->name('dashboard-product-store');
-Route::get('/dashboard/products/{id}', 'DashboardProductController@details')
-        ->name('dashboard-product-details');
-Route::post('/dashboard/products/{id}', 'DashboardProductController@update')
-        ->name('dashboard-product-update');
-
-Route::post('/dashboard/products/gallery/upload', 'DashboardProductController@uploadGallery')
-        ->name('dashboard-product-gallery-upload');
-Route::get('/dashboard/products/gallery/delete/{id}', 'DashboardProductController@deleteGallery')
-        ->name('dashboard-product-gallery-delete');

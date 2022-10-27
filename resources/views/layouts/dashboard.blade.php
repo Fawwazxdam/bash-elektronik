@@ -13,7 +13,7 @@
 
     @stack('prepend-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <link href="/style/main.css" rel="stylesheet" />
+    <link href="{{ asset('/') }}style/main.css" rel="stylesheet" />
     @stack('addon-style')
   </head>
 
@@ -27,31 +27,31 @@
           </div>
           <div class="list-group list-group-flush">
             <a
-              href="{{ route('dashboard') }}"
+              href="{{ route('dashboard.index') }}"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard')) ? 'active' : '' }} "
             >
               Dashboard
             </a>
             <a
-              href="{{ route('dashboard-product') }}"
+              href="{{ route('seller-product') }}"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/products*')) ? 'active' : '' }} "
             >
               My Products
             </a>
             <a
-              href="{{ route('dashboard-transaction') }}"
+              href="{{ route('dashboard-transactions') }}"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions*')) ? 'active' : '' }} "
             >
               Transactions
             </a>
             <a
-              href="{{ route('dashboard-settings-store') }}"
+              href="#"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/settings*')) ? 'active' : '' }} "
             >
               Store Settings
             </a>
             <a
-              href="{{ route('dashboard-settings-account') }}"
+              href="#"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/account*')) ? 'active' : '' }} "
             >
               My Account
@@ -110,8 +110,8 @@
                         Hi, {{ Auth::user()->name }}
                     </a>
                     <div class="dropdown-menu">
-                        <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
-                        <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item">
+                        <a href="#" class="dropdown-item">Dashboard</a>
+                        <a href="#" class="dropdown-item">
                             Settings
                         </a>
                         <div class="dropdown-divider"></div>
@@ -126,7 +126,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
-                        @php
+                        {{-- @php
                             $carts = \App\Cart::where('users_id', Auth::user()->id)->count();
                         @endphp
                         @if($carts > 0)
@@ -134,14 +134,14 @@
                             <div class="card-badge">{{ $carts }}</div>
                         @else
                             <img src="/images/icon-cart-empty.svg" alt="" />
-                        @endif
+                        @endif --}}
                     </a>
                   </li>
                 </ul>
 
                 <ul class="navbar-nav d-block d-lg-none">
                     <li class="nav-item">
-                        <a href="{{ route('dashboard') }}" class="nav-link">
+                        <a href="{{ route('dashboard.index') }}" class="nav-link">
                             Hi, {{ Auth::user()->name }}
                         </a>
                     </li>

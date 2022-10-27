@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\User;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductGallery;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\ProductRequest;
 
 class DashboardProductController extends Controller
 {
@@ -17,10 +21,10 @@ class DashboardProductController extends Controller
     public function index()
     {
         $products = Product::with(['galleries','category'])
-        ->where('user_id',Auth::user()->id)
+        ->where('users_id',Auth::user()->id)
         ->get();
 
-        return view('pages.seller.products',[
+        return view('pages.seller.product',[
             'products' => $products
         ]);
     }
@@ -32,7 +36,73 @@ class DashboardProductController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        $categories=Category::all();
+        return view('pages.seller.productAdd',[
+            'users' => $users,
+            'categories' => $categories
+        ]);
+        
+    }
+
+    public function store(ProductRequest $request)
+    {
+        $data = $request->all();
+        
+        $data['slug'] = Str::slug($request->name);
+        $product = Product::create($data);
+
+        $gallery = [
+            'products_id' => $product->id,
+            'photos' => $request->file('photo')->store('assets/product', 'public')
+        ];
+        ProductGallery::create($gallery);
+
+        return redirect()->route('seller-product');
+    } 
+
+    public function details(Request $request, $id)
+    {
+        $product = Product::with(['galleries','user','category'])->findOrFail($id);
+        $categories = Category::all();
+
+        return view('pages.seller.productDetail',[
+            'product' => $product,
+            'categories' => $categories
+        ]);
+    }
+
+    public function uploadGallery(Request $request)
+    {
+        $data = $request->all();
+
+        $data['photo'] = $request->file('photos')->store('assets/product', 'public');
+
+        ProductGallery::create($data);
+
+        return redirect()->route('seller-productDetails', $request->products_id);
+    }
+
+    public function deleteGallery(Request $request, $id)
+    {
+        $item = ProductGallery::findorFail($id);
+        $item->delete();
+
+        return redirect()->route('seller-productDetails', $item->products_id);
+    }
+
+
+    public function update(ProductRequest $request, $id)
+    {
+        $data = $request->all();
+
+        $item = Product::findOrFail($id);
+
+        $data['slug'] = Str::slug($request->name);
+
+        $item->update($data);
+
+        return redirect()->route('seller-product');
     }
 
     /**
@@ -41,10 +111,7 @@ class DashboardProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.
@@ -75,10 +142,9 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -89,5 +155,7 @@ class DashboardProductController extends Controller
     public function destroy($id)
     {
         //
+        Product::where('id', $id)->delete();
+        return redirect()->route('seller-product');
     }
 }
