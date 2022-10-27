@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TransactioController;
 use App\Http\Controllers\Admin\CategoryControlleradmin;
 use App\Http\Controllers\Admin\ProductGalleryController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\DetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,20 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('category');
 Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'detail'])->name('categories-detail');
-Route::get('/detail', [App\Http\Controllers\DetailController::class, 'index'])->name('detail');
-Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
 
+Route::get('/details/{id}', [App\Http\Controllers\DetailController::class, 'index'])->name('detail');
+Route::post('/details/{id}', [App\Http\Controllers\DetailController::class, 'add'])->name('detail-add');
+Route::get('/register/success', [App\Http\Controllers\Auth\RegisterController::class, 'success'])->name('register-success');
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+    // Route::delete('/cart/{id}',  [App\Http\Controllers\CartController::class, 'delete'])->name('cart-delete');
+    Route::resource('keranjang', CartController::class);
+
+   Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
+
+});
 
 
 Route::prefix('admin')
