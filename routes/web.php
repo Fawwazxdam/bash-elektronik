@@ -40,9 +40,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
         Route::resource('dashboard', UserController::class);
         Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('dashboard-transactions');
+        
         Route::get('/dashboard/seller', [App\Http\Controllers\DashboardSellerController::class, 'index'])
                 ->name('seller-dashboard');
-        Route::get('/dashboard/products', [\App\Http\Controllers\DashboardProductController::class, 'index'])
+        Route::get('/dashboard-products', [\App\Http\Controllers\DashboardProductController::class, 'index'])
                 ->name('seller-product');
         Route::get('/dashboard/products/create', [\App\Http\Controllers\DashboardProductController::class, 'create'])
                 ->name('seller-productAdd');

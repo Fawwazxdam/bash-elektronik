@@ -1,11 +1,9 @@
-@extends('pages/seller/template')
-@section('judul')
-<div class="d-flex align-items-center">
-    <h3 class="h3 mb-0">My Product</h3>
-</div>
+@extends('layouts.dashboard')
+@section('title')
+    Store Products
 @endsection
 
-@section('product')
+@section('content')
 <div class="py-4">
     <div class="dropdown">
         
