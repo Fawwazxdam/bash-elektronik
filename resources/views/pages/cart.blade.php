@@ -5,7 +5,8 @@
 @endsection
 
 @section('content')
-    <!-- Page Content -->
+  <link rel="stylesheet" href="{{ asset('/') }}main.css">    
+<!-- Page Content -->
     <div class="page-content page-cart">
       <section
         class="store-breadcrumbs"
@@ -122,7 +123,7 @@
                   <select name="provinces_id" id="provinces_id" class="form-control" v-model="provinces_id" v-if="provinces">
                     <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                   </select>
-                  <select v-else class="form-control"></select>
+                  
                 </div>
               </div>
               <div class="col-md-4">
@@ -131,9 +132,20 @@
                   <select name="regencies_id" id="regencies_id" class="form-control" v-model="regencies_id" v-if="regencies">
                     <option v-for="regency in regencies" :value="regency.id">@{{regency.name }}</option>
                   </select>
-                  <select v-else class="form-control"></select>
+                  
                 </div>
               </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="regencies_id">Villages</label>
+                  <select name="regencies_id" id="regencies_id" class="form-control" v-model="regencies_id" v-if="regencies">
+                    <option v-for="regency in regencies" :value="regency.id">@{{regency.name }}</option>
+                  </select>
+                  
+                </div>
+              </div>
+              
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="zip_code">Postal Code</label>
@@ -212,7 +224,7 @@
 @endsection
 
 @push('addon-script')
-    <script src="{{ asset('/') }}vendor/vue/vue.js"></script>
+    <script src="{{ asset('/')}}vendor/vue/vue.js"></script>
     <script src="https://unpkg.com/vue-toasted"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
