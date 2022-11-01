@@ -138,9 +138,9 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="regencies_id">Villages</label>
-                  <select name="regencies_id" id="regencies_id" class="form-control" v-model="regencies_id" v-if="regencies">
-                    <option v-for="regency in regencies" :value="regency.id">@{{regency.name }}</option>
+                  <label for="districts_id">Districts</label>
+                  <select name="districts_id" id="districts_id" class="form-control" v-model="districts_id" v-if="districts">
+                    <option v-for="district in districts" :value="district.id">@{{district.name }}</option>
                   </select>
                   
                 </div>
@@ -148,41 +148,38 @@
               
               <div class="col-md-4">
                 <div class="form-group">
+                  <label for="villages_id">Villages</label>
+                  <select name="villages_id" id="villages_id" class="form-control" v-model="villages_id" v-if="villages">
+                    <option v-for="village in villages" :value="village.id">@{{village.name }}</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="form-group">
                   <label for="zip_code">Postal Code</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="zip_code"
                     name="zip_code"
-                    value="40512"
+                    placeholder="code area number"
                   />
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="country">Country</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="country"
-                    name="country"
-                    value="Indonesia"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="phone_number">Mobile</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="phone_number"
                     name="phone_number"
-                    value="+628 2020 11111"
+                    placeholder="phone number"
                   />
                 </div>
               </div>
-            </div>
+              </div>
             <div class="row" data-aos="fade-up" data-aos-delay="150">
               <div class="col-12">
                 <hr />
@@ -236,8 +233,13 @@
         data: {
           provinces: null,
           regencies: null,
+          districts: null,
+          villages: null,
+
           provinces_id: null,
           regencies_id: null,
+          districts_id: null,
+          villages_id: null,
         },
         methods: {
           getProvincesData() {
@@ -254,11 +256,33 @@
                   self.regencies = response.data;
               })
           },
+          getDistrictsData() {
+            var self = this;
+            axios.get('{{ url('api/districts') }}/' + self.regencies_id)
+              .then(function (response) {
+                  self.districts = response.data;
+              })
+          },
+          getVillagesData() {
+            var self = this;
+            axios.get('{{ url('api/villages') }}/' + self.districts_id)
+              .then(function (response) {
+                  self.villages = response.data;
+              })
+          },
         },
         watch: {
           provinces_id: function (val, oldVal) {
             this.regencies_id = null;
             this.getRegenciesData();
+          },
+          regencies_id: function (val, oldVal) {
+            this.districts_id = null;
+            this.getDistrictsData();
+          },
+          districts_id: function (val, oldVal) {
+            this.villages_id = null;
+            this.getVillagesData();
           },
         }
       });
