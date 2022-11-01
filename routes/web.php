@@ -39,7 +39,11 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
         Route::resource('dashboard', UserController::class);
-        Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])->name('dashboard-transactions');
+
+        Route::get('/dashboard', [App\Http\Controllers\UserController::class, 'index'])
+        ->name('dashboard');
+        Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])
+        ->name('dashboard-transactions');
         
         Route::get('/dashboard/seller', [App\Http\Controllers\DashboardSellerController::class, 'index'])
                 ->name('seller-dashboard');
@@ -62,7 +66,13 @@ Route::group(['middleware' => ['auth']], function () {
                 ->name('seller-galleryUpload');
         Route::get('/dashboard/products/gallery/delete/{id}', [\App\Http\Controllers\DashboardProductController::class, 'deleteGallery'])
                 ->name('seller-galleryDelete');
-});
+
+        Route::get('/dashboard/account', [\App\Http\Controllers\DashboardSettingController::class, 'account'])
+                ->name('seller-account');
+        Route::post('/dashboard/update/{redirect}', [\App\Http\Controllers\DashboardSettingController::class, 'update'])
+                ->name('seller-settings-redirect');
+});     
+
 
 
 Route::prefix('admin')
@@ -87,4 +97,7 @@ Route::get('template', function () {
 
 Route::get('product', function () {
         return view('pages/seller/product');
+});
+Route::get('account', function () {
+        return view('pages/seller/account');
 });

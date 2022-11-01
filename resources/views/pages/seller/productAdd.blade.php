@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col ">
                             <label for="">Stock</label>
-                          <input type="number" class="form-control" placeholder="Stock" >
+                          <input type="number" class="form-control" placeholder="Stock" name="stock">
                         </div>
                         <div class="col">
                             <label class="my-1 me-2" for="">Category</label>

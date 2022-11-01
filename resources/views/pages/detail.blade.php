@@ -90,7 +90,7 @@
 									</ul>
 								</div>
 
-								<div class="product_price">$2000</div>
+								<div class="product_price">IDR {{ $product->price}}</div>
                 <div class="button_container">
                   @auth
                   <form action="{{ route('detail-add', $product->id) }}" method="POST" enctype="multipart/form-data">
