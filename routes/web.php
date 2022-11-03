@@ -40,17 +40,19 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
         Route::resource('dashboard', UserController::class);
 
-        Route::get('/dashboard', [App\Http\Controllers\UserController::class, 'index'])
-        ->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\UserController::class, 'index'])->name('dashboard');
+        Route::get('/account', [App\Http\Controllers\DashboardAccountController::class, 'account']);
         Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])
-        ->name('dashboard-transactions');
-        
+                ->name('dashboard-transactions');
+
         Route::get('/dashboard/seller', [App\Http\Controllers\DashboardSellerController::class, 'index'])
                 ->name('seller-dashboard');
         Route::get('/dashboard-products', [\App\Http\Controllers\DashboardProductController::class, 'index'])
                 ->name('seller-product');
         Route::get('/dashboard/products/create', [\App\Http\Controllers\DashboardProductController::class, 'create'])
                 ->name('seller-productAdd');
+
+                
         Route::post('/dashboard/products', [\App\Http\Controllers\DashboardProductController::class, 'store'])
                 ->name('seller-insertProduct');
         Route::get('/dashboard/products/{id}',  [\App\Http\Controllers\DashboardProductController::class, 'details'])
@@ -66,12 +68,9 @@ Route::group(['middleware' => ['auth']], function () {
                 ->name('seller-galleryUpload');
         Route::get('/dashboard/products/gallery/delete/{id}', [\App\Http\Controllers\DashboardProductController::class, 'deleteGallery'])
                 ->name('seller-galleryDelete');
-
-        Route::get('/dashboard/account', [\App\Http\Controllers\DashboardSettingController::class, 'account'])
-                ->name('seller-account');
-        Route::post('/dashboard/update/{redirect}', [\App\Http\Controllers\DashboardSettingController::class, 'update'])
+        Route::post('/dashboard/update/{redirect}', [\App\Http\Controllers\DashboardAccountController::class, 'update'])
                 ->name('seller-settings-redirect');
-});     
+});
 
 
 
