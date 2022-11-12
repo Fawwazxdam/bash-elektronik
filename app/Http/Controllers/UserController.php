@@ -91,9 +91,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $categories = Category::all();
+
     
-        return view('pages.dashboard-settings', compact('categories', 'user'));
+        return view('pages.seller.account', compact('user'));
     }
 
     /**
@@ -108,12 +108,23 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update([
             
-            'store_name' =>$request->store_name,
+            'name' =>$request->name,
+            'email' =>$request->email,
+            'password'=>Auth::user()->password,
+            'address_one' =>$request->address_one,
+            'address_two' =>$request->address_two,
+            'provinces_id' =>$request->provinces_id,
+            'regencies_id' =>$request->regencies_id,
+            'zip_code' =>$request->zip_code,
+            'country' =>$request->country,
+            'phone_number' =>$request->phone_number,
+            'store_name'=>Auth::user()->store_name,
+            'categories_id'=>Auth::user()->categories_id,
         ]);
         // dd($request);
 
         // $user->update($request);
-        return redirect()->route('dashboard.index')->with('success','Date Berhasil Di Update');
+        return redirect()->route('dashboard')->with('success','Date Berhasil Di Update');
     }
 
     /**
@@ -125,5 +136,41 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function editstore($id)
+    {
+        $user = User::findOrFail($id);
+        $categories = Category::all();
+    
+        return view('pages.dashboard-settings', compact('categories', 'user'));
+    }
+
+    public function updatestore(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $categories = Category::all();
+
+        $user->update([ 
+
+            'name' =>Auth::user()->name,
+            'email' =>Auth::user()->email,
+            'password'=>Auth::user()->password,
+            'address_one' =>Auth::user()->address_one,
+            'address_two' =>Auth::user()->address_two,
+            'provinces_id' =>Auth::user()->provinces_id,
+            'regencies_id' =>Auth::user()->regencies_id,
+            'zip_code' =>Auth::user()->zip_code,
+            'country' =>Auth::user()->country,
+            'phone_number' =>Auth::user()->phone_number,
+            'store_name' =>$request->store_name,
+            'categories_id' =>$request->categories_id,
+            'store_status' =>$request->store_status,
+
+        ]);
+        // dd($request);
+    
+
+        return redirect()->route('dashboard', compact('categories', 'user'));
     }
 }

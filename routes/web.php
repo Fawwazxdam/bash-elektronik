@@ -46,7 +46,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('dashboard', UserController::class);
 
         Route::get('/dashboard', [App\Http\Controllers\UserController::class, 'index'])->name('dashboard');
-        Route::get('/account', [App\Http\Controllers\DashboardAccountController::class, 'account']);
+        Route::get('/storesettings/{id}', [App\Http\Controllers\UserController::class, 'editstore'])->name('storesettings');
+        Route::post('/storeupdate/{id}', [App\Http\Controllers\UserController::class, 'updatestore'])->name('storeupdate');
+
         Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])
                 ->name('dashboard-transactions');
         Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'details'])

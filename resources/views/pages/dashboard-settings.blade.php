@@ -20,9 +20,9 @@
     <div class="dashboard-content">
       <div class="row">
         <div class="col-12">
-          <form action="{{ route('dashboard.update',Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('storeupdate',Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('put')
+            {{-- @method('put') --}}
             <div class="card">
               <div class="card-body">
                 <div class="row">
@@ -58,7 +58,7 @@
                           name="store_status"
                           id="openStoreTrue"
                           value="1"
-                          {{-- {{ $user->store_status == 1 ? 'checked' : '' }} --}}
+                          {{ $user->store_status == 1 ? 'checked' : '' }}
                         />
                         <label
                           for="openStoreTrue"
@@ -76,7 +76,7 @@
                           name="store_status"
                           id="openStoreFalse"
                           value="0"
-                          {{-- {{ $user->store_status == 0 || $user->store_status == NULL ? 'checked' : '' }} --}}
+                          {{ $user->store_status == 0 || $user->store_status == NULL ? 'checked' : '' }}
                         />
                         <label
                           for="openStoreFalse"
