@@ -27,7 +27,8 @@
             >
               @foreach ($sellTransactions as $transaction)
                   <a
-                    href="{{ route('dashboard-transaction-details', $transaction->id) }}"
+                  {{-- {{ route('dashboard-transaction-details', $transaction->id) }} --}}
+                    href=""
                     class="card card-list d-block"
                   >
                     <div class="card-body">
@@ -66,7 +67,8 @@
             >
               @foreach ($buyTransactions as $transaction)
                   <a
-                    href="{{ route('dashboard-transaction-details', $transaction->id) }}"
+                  {{-- {{ route('dashboard-transaction-details', $transaction->id) }} --}}
+                    href=""
                     class="card card-list d-block"
                   >
                     <div class="card-body">

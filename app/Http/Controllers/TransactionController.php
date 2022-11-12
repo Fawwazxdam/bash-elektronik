@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use Illuminate\Http\Request;
+use App\Models\TransactionDetail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class TransactionController extends Controller
 {
@@ -14,9 +16,22 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $sellTransactions = Transaction::all();
-        $buyTransactions = Transaction::all();
-        return view('pages.dashboard-transactions', compact('sellTransactions', 'buyTransactions'));
+        // $sellTransactions = Transaction::all();
+        // $buyTransactions = Transaction::all();
+        // return view('pages.dashboard-transactions', compact('sellTransactions', 'buyTransactions'));
+        $sellTransactions = TransactionDetail::with(['transaction.user','product.galleries'])
+        ->whereHas('product', function($product){
+            $product->where('users_id', Auth::user()->id);
+        })->get();
+$buyTransactions = TransactionDetail::with(['transaction.user','product.galleries'])
+        ->whereHas('transaction', function($transaction){
+            $transaction->where('users_id', Auth::user()->id);
+        })->get();
+
+return view('pages.dashboard-transactions',[
+'sellTransactions' => $sellTransactions,
+'buyTransactions' => $buyTransactions
+]);
     }
 
     /**
@@ -46,9 +61,14 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function details(Request $request,$id)
     {
-        //
+        // $transaction = TransactionDetail::with(['transaction.user','product.galleries'])
+        // ->findOrFail($id);
+        // return view('pages.dashboard-transactions-details',['transaction' => $transaction
+        // ]);
+
+       
     }
 
     /**

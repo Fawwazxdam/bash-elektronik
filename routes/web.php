@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\TransactioController;
 use App\Http\Controllers\Admin\CategoryControlleradmin;
 use App\Http\Controllers\Admin\ProductGalleryController;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,19 +33,24 @@ Route::get('/details/{id}', [App\Http\Controllers\DetailController::class, 'inde
 Route::post('/details/{id}', [App\Http\Controllers\DetailController::class, 'add'])->name('detail-add');
 Route::get('/register/success', [App\Http\Controllers\Auth\RegisterController::class, 'success'])->name('register-success');
 
+Route::get('/success', [App\Http\Controllers\CartController::class,'success'])->name('success');
+Route::post('/checkout/callback', [App\Http\Controllers\CheckoutController::class, 'callback'])->name('midtrans-callback');
+
 Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
         // Route::delete('/cart/{id}',  [App\Http\Controllers\CartController::class, 'delete'])->name('cart-delete');
         Route::resource('keranjang', CartController::class);
 
-        Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'proses'])->name('checkout');
+        Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout');
         Route::resource('dashboard', UserController::class);
 
         Route::get('/dashboard', [App\Http\Controllers\UserController::class, 'index'])->name('dashboard');
         Route::get('/account', [App\Http\Controllers\DashboardAccountController::class, 'account']);
         Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'index'])
                 ->name('dashboard-transactions');
+        Route::get('/dashboard-transactions', [App\Http\Controllers\TransactionController::class, 'details'])
+                ->name('dashboard-transaction-details');
 
         Route::get('/dashboard/seller', [App\Http\Controllers\DashboardSellerController::class, 'index'])
                 ->name('seller-dashboard');
